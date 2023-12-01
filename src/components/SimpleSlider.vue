@@ -1,68 +1,91 @@
-<script setup lang="ts">
-import { ref } from 'vue';
-
-const stepValue = ref(0);
-const currentValue = ref(0);
-const minValue = ref(0);
-const maxValue = ref(100);
-</script>
-
 <template>
 	<div class="slider-container">
-		<div class="container">
-			<v-slider
-				class="main-item"
-				v-model="currentValue"
-				label="Test Control"
-				:max="maxValue"
-				:min="minValue"
-				:step="stepValue">
-			</v-slider>
-			<v-text-field
-				class="peripheral-item"
-				label="Current Value"
-				readonly
-				v-model="currentValue"></v-text-field>
-		</div>
-
-		<div class="container">
-			<v-text-field
-				class="item"
-				label="Step Value"
-				v-model="stepValue"></v-text-field>
-			<v-text-field
-				class="item"
-				label="Minimum Value"
-				v-model="minValue"></v-text-field>
-			<v-text-field
-				class="item"
-				label="Maximum Value"
-				v-model="maxValue"></v-text-field>
+		<input
+			type="range"
+			:min="minValue"
+			:max="maxValue"
+			:value="currentValue"
+			:step="stepValue"
+			@input="
+				$emit(
+					'update:modelValue',
+					(currentValue = parseInt(
+						($event.target as HTMLInputElement)?.value ?? 0,
+						10
+					))
+				)
+			" />
+		<div class="slider-steps">
+			<span :class="showStepLabels ? 'slider-step' : ''" v-for="step in steps">
+				<span v-if="showStepLabels" class="slider-step-label"> {{ step }}</span>
+			</span>
 		</div>
 	</div>
 </template>
 
+<script setup lang="ts">
+import { ref, computed, type PropType } from 'vue';
+
+const props = defineProps({
+	stepValue: { type: Number as PropType<number>, default: 1, required: true },
+	modelValue: { type: Number as PropType<number>, default: 0, required: true },
+	minValue: { type: Number as PropType<number>, default: 0, required: true },
+	maxValue: { type: Number as PropType<number>, default: 100, required: true },
+	showStepLabels: {
+		type: Boolean as PropType<boolean>,
+		default: false,
+		required: true,
+	},
+});
+
+const currentValue = ref(props.modelValue);
+
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: number): void;
+}>();
+
+const steps = computed(() => {
+	// Do some very basic checks around min/max/step values before computing the step list.
+	const firstStep =
+		props.minValue > props.maxValue ? props.maxValue : props.minValue;
+	const lastStep = props.maxValue < firstStep ? firstStep : props.maxValue;
+	const useStepSize = props.stepValue > 0 ? props.stepValue : 1;
+	const computedSteps = [];
+
+	let currentStep = firstStep;
+
+	while (currentStep <= lastStep) {
+		computedSteps.push(currentStep);
+		currentStep += useStepSize;
+	}
+
+	return computedSteps;
+});
+</script>
 <style scoped>
+input[type='range'] {
+	/* Ensure the control uses the available width */
+	width: 100%;
+}
+
 .slider-container {
 	justify-content: center;
 	width: 90vw;
 }
 
-.main-item {
-	width: 70%;
+.slider-steps {
+	display: flex;
+	justify-content: space-between;
+	padding: 0 10px;
+	min-height: 2rem;
 }
 
-.peripheral-item {
-	width: 30%;
-}
-.container {
+.slider-steps span.slider-step {
 	display: flex;
-}
-.item {
-	margin-top: 1rem;
-	flex: 3 1 auto;
-	width: max-content;
-	margin: 1rem;
-	justify-items: space-between;
+	justify-content: center;
+	width: 1px;
+	height: 10px;
+	background: #d3d3d3;
+	line-height: 40px;
 }
 </style>

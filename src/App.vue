@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import SimpleSlider from './components/SimpleSlider.vue';
+import SliderExample from './components/SliderExample.vue';
 </script>
 
 <template>
 	<main>
-		<SimpleSlider />
+		<SliderExample />
 	</main>
 </template>
