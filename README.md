@@ -1,8 +1,9 @@
 # simple-slider
 
-This is an mvp for a simple slider component in vue.js version 3. Please see the gif below for example usage.
+This is an mvp for a simple slider component in vue.js version 3 - therefore there may be some rough edges. Please see the gif below for example usage.
 
-![simple_slider](https://github.com/unlearnd/simple-slider/assets/26026279/9bfeb915-a7aa-423d-ae98-28a492c4f639)
+![slider_example](https://github.com/unlearnd/simple-slider/assets/26026279/7ffb8f98-4dfc-40ff-bede-cdd022375e57)
+
 
 ## Recommended IDE Setup
 
