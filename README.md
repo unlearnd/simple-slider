@@ -1,6 +1,8 @@
 # simple-slider
 
-This template should help get you started developing with Vue 3 in Vite.
+This is an mvp for a simple slider component in vue.js version 3. Please see the gif below for example usage.
+
+![simple_slider](https://github.com/unlearnd/simple-slider/assets/26026279/9bfeb915-a7aa-423d-ae98-28a492c4f639)
 
 ## Recommended IDE Setup
 
