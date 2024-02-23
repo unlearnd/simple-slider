@@ -2,3 +2,4 @@
 1.17.3.mypkg filter=lfs diff=lfs merge=lfs -text
 1.15.3.mypkg filter=lfs diff=lfs merge=lfs -text
 1.17.4.mypkg filter=lfs diff=lfs merge=lfs -text
+1.17.4[[:space:]].appended.mypkg filter=lfs diff=lfs merge=lfs -text
